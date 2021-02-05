@@ -3,7 +3,9 @@
             [clojure.spec.alpha :as s]
             [clojure.test.check.generators :as gen]
             [clojure.string :as string]
-            [miner.strgen :as sg]))
+            [miner.strgen :as sg]
+            [pensive-dubinsky.parse :as parse]
+            [pensive-dubinsky.util :as util]))
 
 (s/def ::spec/favorite-color
   (s/with-gen
@@ -31,7 +33,27 @@
     #(gen/such-that
        identity
        (gen/fmap
-         spec/conform-date-string
+         util/conform-date-string
          (s/gen :string/date-of-birth)))))
 
+(def gen-record-line
+  (gen/fmap
+    (fn [[delimiter record]]
+      (string/join delimiter (map record parse/headers)))
+    (gen/tuple
+      (sg/string-generator parse/value-delimiter-regex)
+      (s/gen ::spec/create-record))))
+
+(def sample-file-paths ["samples/sample1.txt"
+                        "samples/sample2.txt"
+                        "samples/sample3.txt"])
+
+(defn generate-sample-files!
+  ([num-lines]
+   (doseq [fp sample-file-paths]
+     (spit fp (string/join "\n" (gen/sample gen-record-line num-lines)))))
+  ([] (generate-sample-files! 10)))
+
+(defn -main []
+  (generate-sample-files!))
 

@@ -1,6 +1,6 @@
 (ns pensive-dubinsky.parse
   (:require [clojure.string :as string]
-            [pensive-dubinsky.api.spec :as spec]))
+            [pensive-dubinsky.util :as util]))
 
 (def headers [:last-name
               :first-name
@@ -8,13 +8,16 @@
               :favorite-color
               :date-of-birth])
 
+(def value-delimiter-regex
+  #"(, )|( \| )|( )")
+
 (defn coerce-record [record]
-  (update record :date-of-birth spec/conform-date-string))
+  (update record :date-of-birth util/conform-date-string))
 
 (defn line->record [line]
   (zipmap
     headers
-    (string/split line #"(, )|( \| )|( )")))
+    (string/split line value-delimiter-regex)))
 
 (defn ->lines [text]
   (string/split text #"\R"))
