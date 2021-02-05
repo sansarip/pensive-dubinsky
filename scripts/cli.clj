@@ -1,3 +1,9 @@
-(use 'pensive-dubinsky.core)
+(use 'pensive-dubinsky.parse)
 
-(let [[f1 f2 f3] *command-line-args*])
+(parse-text
+  (reduce
+    (fn [s f] (str s (slurp f)))
+    ""
+    *command-line-args*))
+
+
