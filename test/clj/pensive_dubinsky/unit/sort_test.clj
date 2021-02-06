@@ -29,6 +29,7 @@
         (is (every? (partial = record-set) sorted-record-sets))))))
 
 (defspec test-idempotent-sort-fns 100
+
   ;; Given
   (prop/for-all [[records num-juxt] (gen/fmap
                                       (fn [[records num-juxt]]
@@ -54,6 +55,7 @@
         (is (apply = sorted-records))))))
 
 (defspec test-sort-descending-email-with-constant-last-name 100
+
   ;; Given
   (prop/for-all [records (gen/fmap
                            (fn [records]
@@ -70,6 +72,7 @@
 
 
 (defspec test-sort-ascending-last-name-with-constant-email 100
+
   ;; Given
   (prop/for-all [records (gen/fmap
                            (fn [records]
@@ -83,3 +86,36 @@
       ;; Then
       (is (= (sort-by :last-name records)
              sorted-records)))))
+
+(defspec test-sort-descending-birth-date 100
+
+  ;;Given
+  (let [sorted-dates ["07/24/1901"
+                      "01/21/1903"
+                      "05/16/1937"
+                      "02/22/1947"
+                      "10/05/1968"
+                      "02/28/1970"
+                      "06/03/1970"
+                      "03/04/1977"
+                      "06/21/1999"
+                      "01/01/2008"]]
+    (prop/for-all [records (gen/fmap
+                             (fn [[shuffled-dates records]]
+                               (map
+                                 (fn [[date record]]
+                                   (assoc record :date-of-birth date))
+                                 (zipmap shuffled-dates records)))
+                             (gen/tuple
+                               (gen/shuffle sorted-dates)
+                               (gen/vector (s/gen ::spec/record)
+                                           (count sorted-dates))))]
+
+      ;; When
+      (let [sorted-record-dates (mapv
+                                  :date-of-birth
+                                  (sort*/sort-by-ascending-birth-date
+                                    records))]
+
+        ;; Then
+        (is (= sorted-dates sorted-record-dates))))))
