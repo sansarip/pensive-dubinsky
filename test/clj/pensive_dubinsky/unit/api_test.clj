@@ -1,4 +1,4 @@
-(ns pensive-dubinsky.api-test
+(ns pensive-dubinsky.unit.api-test
   (:require [clojure.test :refer :all]))
 
 (deftest a-test
