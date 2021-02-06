@@ -3,6 +3,7 @@
     [pensive-dubinsky.api.spec :as spec]
     [pensive-dubinsky.gen]
     [pensive-dubinsky.sort :as sort*]
+    [pensive-dubinsky.test-util :as tu]
     [clojure.test :refer :all]
     [clojure.test.check.clojure-test :refer [defspec]]
     [clojure.test.check.properties :as prop]
@@ -10,7 +11,7 @@
     [clojure.spec.alpha :as s]
     [clojure.test.check.generators :as gen]))
 
-(defspec test-set-of-sorted-records-equal-to-set-of-input-records 100
+(defspec test-set-of-sorted-records-equal-to-set-of-input-records tu/num-tests
   ;; Given
   (prop/for-all [record-set (gen/fmap
                               set
@@ -28,7 +29,7 @@
       (testing "Every sorted record set is equal to the original record set"
         (is (every? (partial = record-set) sorted-record-sets))))))
 
-(defspec test-idempotent-sort-fns 100
+(defspec test-idempotent-sort-fns tu/num-tests
 
   ;; Given
   (prop/for-all [[records num-juxt] (gen/fmap
@@ -54,7 +55,7 @@
       (testing "The same inputs result in the same outputs"
         (is (apply = sorted-records))))))
 
-(defspec test-sort-descending-email-with-constant-last-name 100
+(defspec test-sort-descending-email-with-constant-last-name tu/num-tests
 
   ;; Given
   (prop/for-all [records (gen/fmap
@@ -71,7 +72,7 @@
              sorted-records)))))
 
 
-(defspec test-sort-ascending-last-name-with-constant-email 100
+(defspec test-sort-ascending-last-name-with-constant-email tu/num-tests
 
   ;; Given
   (prop/for-all [records (gen/fmap
@@ -87,7 +88,7 @@
       (is (= (sort-by :last-name records)
              sorted-records)))))
 
-(defspec test-sort-descending-birth-date 100
+(defspec test-sort-descending-birth-date tu/num-tests
 
   ;;Given
   (let [sorted-dates ["07/24/1901"
