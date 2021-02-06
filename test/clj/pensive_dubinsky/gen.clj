@@ -48,12 +48,15 @@
                         "samples/sample2.txt"
                         "samples/sample3.txt"])
 
-(defn generate-sample-files!
-  ([num-lines]
-   (doseq [fp sample-file-paths]
-     (spit fp (string/join "\n" (gen/sample gen-record-line num-lines)))))
-  ([] (generate-sample-files! 10)))
+(defn generate-sample-files! [lines-per-sample]
+  (doseq [fp sample-file-paths]
+    (->> lines-per-sample
+         (gen/sample gen-record-line)
+         (string/join (System/lineSeparator))
+         (spit fp))))
 
-(defn -main []
-  (generate-sample-files!))
+(defn -main [& [lines-per-sample]]
+  ((fnil generate-sample-files! 10)
+   (try (Integer/parseInt lines-per-sample)
+        (catch NumberFormatException _))))
 
