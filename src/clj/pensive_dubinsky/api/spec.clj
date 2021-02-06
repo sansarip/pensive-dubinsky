@@ -11,6 +11,11 @@
 (def hex-color-regex
   #"^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$")
 
+(def invalid-character-regex
+  (re-pattern
+    (str parse/value-delimiter-regex
+         #"|(\r\n|\r|\n)")))
+
 (defn matches-email-regex? [email]
   (re-matches email-regex email))
 
@@ -18,8 +23,7 @@
   (re-matches hex-color-regex color))
 
 (defn valid-name? [name]
-  (not (re-find parse/value-delimiter-regex name)))
-
+  (not (re-find invalid-character-regex name)))
 
 (defn valid-date? [date]
   (instance? LocalDate date))
