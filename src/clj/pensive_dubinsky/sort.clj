@@ -19,7 +19,7 @@
 (defn sort-by-ascending-birth-date
   [records]
   (sort-by
-    (comp util/conform-date-string :date-of-birth)
+    (comp util/date-string->local-date :date-of-birth)
     records))
 
 (defn sort-by-descending-last-name

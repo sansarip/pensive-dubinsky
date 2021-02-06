@@ -33,7 +33,7 @@
     #(gen/such-that
        identity
        (gen/fmap
-         util/conform-date-string
+         util/date-string->local-date
          (s/gen :string/date-of-birth)))))
 
 (def gen-record-line

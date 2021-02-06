@@ -4,7 +4,7 @@
 
 (def date-format (DateTimeFormatter/ofPattern "MM/dd/yyyy"))
 
-(defn conform-date-string [date]
+(defn date-string->local-date [date]
   (try
     (LocalDate/parse date date-format)
     (catch DateTimeParseException _)))
