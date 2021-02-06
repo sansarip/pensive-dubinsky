@@ -42,7 +42,7 @@
       (string/join delimiter (map record parse/headers)))
     (gen/tuple
       (sg/string-generator parse/value-delimiter-regex)
-      (s/gen ::spec/create-record))))
+      (s/gen ::spec/record))))
 
 (def sample-file-paths ["samples/sample1.txt"
                         "samples/sample2.txt"

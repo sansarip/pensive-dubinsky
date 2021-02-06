@@ -34,19 +34,13 @@
 (s/def ::email (s/and string? matches-email-regex?))
 (s/def ::favorite-color (s/and string? matches-hex-color-regex?))
 (s/def :date/date-of-birth valid-date?)
-(s/def :string/date-of-birth (s/and string? util/conform-date-string))
+(s/def :string/date-of-birth (s/and string? util/date-string->local-date))
 
 (s/def ::record (s/keys
                   :req-un [::last-name
                            ::first-name
                            ::email
                            ::favorite-color
-                           :date/date-of-birth]))
+                           :string/date-of-birth]))
 
-(s/def ::create-record (s/keys
-                         :req-un [::last-name
-                                  ::first-name
-                                  ::email
-                                  ::favorite-color
-                                  :string/date-of-birth]))
-
+(s/def ::records (s/* ::record))
