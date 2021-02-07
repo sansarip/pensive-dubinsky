@@ -1,7 +1,18 @@
 {:paths ["src/clj"]
- :deps  {org.clojure/clojure {:mvn/version "1.10.2"}}
+ :deps  {org.clojure/clojure          {:mvn/version "1.10.2"}
+         org.slf4j/slf4j-nop          {:mvn/version "1.7.12"}
+         io.pedestal/pedestal.service {:mvn/version "0.5.5"}
+         io.pedestal/pedestal.jetty   {:mvn/version "0.5.5"}
+         metosin/ring-http-response   {:mvn/version "0.9.1"}
+         metosin/reitit-pedestal      {:mvn/version "0.5.12"}
+         metosin/reitit               {:mvn/version "0.5.12"}
+         ring/ring-devel              {:mvn/version "1.9.0"}}
  :aliases
-        {:repl             {:main-opts ["-e" ""]}
+        {:server           {:main-opts ["-m" pensive-dubinsky.api.server]}
+         :server+nrepl     {:main-opts  ["-e" "(use,'pensive-dubinsky.api.server),(start!)"
+                                         "-m" nrepl.cmdline
+                                         "-p" "3080"]
+                            :extra-deps {nrepl/nrepl {:mvn/version "0.8.3"}}}
          :test             {:extra-paths ["test/clj"]
                             :extra-deps  {org.clojure/test.check {:mvn/version "1.1.0"}
                                           com.velisco/strgen     {:mvn/version "0.1.8"}}}
