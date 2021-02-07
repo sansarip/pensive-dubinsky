@@ -16,6 +16,12 @@
        c
        (compare last-name-a last-name-b)))))
 
+(defn sort-by-ascending-email
+  [records]
+  (sort-by
+    :email
+    records))
+
 (defn sort-by-ascending-birth-date
   [records]
   (sort-by
@@ -27,4 +33,10 @@
   (sort-by
     :last-name
     reverse-compare
+    records))
+
+(defn sort-by-ascending-full-name
+  [records]
+  (sort-by
+    (juxt :first-name :last-name)
     records))
