@@ -1,6 +1,5 @@
 (ns pensive-dubinsky.parse
-  (:require [clojure.string :as string]
-            [pensive-dubinsky.util :as util]))
+  (:require [clojure.string :as string]))
 
 (def headers [:last-name
               :first-name

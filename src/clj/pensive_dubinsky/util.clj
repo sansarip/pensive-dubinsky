@@ -1,6 +1,7 @@
 (ns pensive-dubinsky.util
-  (:import (java.time.format DateTimeFormatter DateTimeParseException)
-           (java.time LocalDate)))
+  (:import
+    (java.time.format DateTimeFormatter DateTimeParseException)
+    (java.time LocalDate)))
 
 (def date-format (DateTimeFormatter/ofPattern "MM/dd/yyyy"))
 
