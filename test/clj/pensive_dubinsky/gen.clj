@@ -1,11 +1,12 @@
 (ns pensive-dubinsky.gen
-  (:require [pensive-dubinsky.api.spec :as spec]
-            [clojure.spec.alpha :as s]
-            [clojure.test.check.generators :as gen]
-            [clojure.string :as string]
-            [miner.strgen :as sg]
-            [pensive-dubinsky.parse :as parse]
-            [pensive-dubinsky.util :as util]))
+  (:require
+    [pensive-dubinsky.api.spec :as spec]
+    [clojure.spec.alpha :as s]
+    [clojure.test.check.generators :as gen]
+    [clojure.string :as string]
+    [miner.strgen :as sg]
+    [pensive-dubinsky.parse :as parse]
+    [pensive-dubinsky.util :as util]))
 
 (s/def ::spec/favorite-color
   (s/with-gen
@@ -35,6 +36,16 @@
        (gen/fmap
          util/date-string->local-date
          (s/gen :string/date-of-birth)))))
+
+(s/def ::spec/data-line
+  (s/with-gen
+    ::spec/data-line
+    #(gen/fmap
+       (fn [[delim values]]
+         (string/join (interpose delim values)))
+       (gen/tuple
+         (sg/string-generator parse/value-delimiter-regex)
+         (gen/vector gen/string-ascii)))))
 
 (def gen-record-line
   (gen/fmap
