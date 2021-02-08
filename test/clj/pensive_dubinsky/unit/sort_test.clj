@@ -1,9 +1,10 @@
 (ns pensive-dubinsky.unit.sort-test
   (:require
     [pensive-dubinsky.api.spec :as spec]
-    [pensive-dubinsky.gen]
+    [pensive-dubinsky.gen :as gen*]
     [pensive-dubinsky.sort :as sort*]
     [pensive-dubinsky.test-util :as tu]
+    [pensive-dubinsky.samples :as samples]
     [clojure.test :refer :all]
     [clojure.test.check.clojure-test :refer [defspec]]
     [clojure.test.check.properties :as prop]
@@ -91,32 +92,14 @@
 (defspec test-sort-descending-birth-date tu/num-tests
 
   ;;Given
-  (let [sorted-dates ["07/24/1901"
-                      "01/21/1903"
-                      "05/16/1937"
-                      "02/22/1947"
-                      "10/05/1968"
-                      "02/28/1970"
-                      "06/03/1970"
-                      "03/04/1977"
-                      "06/21/1999"
-                      "01/01/2008"]]
-    (prop/for-all [records (gen/fmap
-                             (fn [[shuffled-dates records]]
-                               (map
-                                 (fn [[date record]]
-                                   (assoc record :date-of-birth date))
-                                 (zipmap shuffled-dates records)))
-                             (gen/tuple
-                               (gen/shuffle sorted-dates)
-                               (gen/vector (s/gen ::spec/record)
-                                           (count sorted-dates))))]
+  (prop/for-all [records (gen*/records-with-dates
+                           samples/sorted-dates)]
 
-      ;; When
-      (let [sorted-record-dates (mapv
-                                  :date-of-birth
-                                  (sort*/sort-by-ascending-birth-date
-                                    records))]
+    ;; When
+    (let [sorted-record-dates (mapv
+                                :date-of-birth
+                                (sort*/sort-by-ascending-birth-date
+                                  records))]
 
-        ;; Then
-        (is (= sorted-dates sorted-record-dates))))))
+      ;; Then
+      (is (= samples/sorted-dates sorted-record-dates)))))
