@@ -19,8 +19,8 @@ remove-samples-and-outputs: remove-sample-files remove-output-files
 
 generate-and-run: generate-sample-files run-with-sample-files
 
-nrepl:
+run-dev-nrepl:
 	clj -M:server+nrepl:test -r
 
-tests:
+run-tests:
 	clj -M:test:runner
