@@ -4,8 +4,7 @@
     [reitit.pedestal :as pedestal]
     [pensive-dubinsky.api.interceptors :refer [reloadable-router router]]))
 
-;; TODO: Create prod config
-(def server*
+(def service-map
   (-> {::server/type            :jetty
        ::server/port            3000
        ::server/join?           false
@@ -14,8 +13,10 @@
        ::server/secure-headers  {:content-security-policy-settings {:object-src "'none'"}}}
       (server/default-interceptors)
       (pedestal/replace-last-interceptor reloadable-router)
-      (server/dev-interceptors)
-      (server/create-server)))
+      (server/dev-interceptors)))
+
+;; TODO: Create prod config
+(def server* (server/create-server service-map))
 
 (defn start! []
   (server/start server*))
