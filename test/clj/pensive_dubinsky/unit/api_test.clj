@@ -15,6 +15,7 @@
             [clojure.test.check.generators :as gen]
             [cheshire.core :as json]
             [pensive-dubinsky.api.db :as db]))
+            [clojure.set :as cljset]
 
 (def service
   (:io.pedestal.http/service-fn
@@ -23,26 +24,27 @@
 (defspec test-post-records tu/num-tests
 
   ;; Given
-  (prop/for-all [data-line (s/gen ::spec/data-line)]
-    (let [expected-record (parse/line->map data-line)]
+  (prop/for-all [data-lines (gen/vector (s/gen ::spec/data-line))]
+    (let [expected-records (map parse/line->map data-lines)]
       (tu/with-cleanup
-        expected-record
+        expected-records
 
         ;; When
         #(let [{json-body :body
-                status :status} (response-for
-                                  service
-                                  :post "/records"
-                                  :headers {"Content-Type" "application/json"}
-                                  :body (json/generate-string
-                                          {:data-line data-line}))
+                status    :status} (response-for
+                                     service
+                                     :post "/records"
+                                     :headers {"Content-Type" "application/json"}
+                                     :body (json/generate-string data-lines))
                body (json/parse-string json-body true)]
 
            ;; Then
            (testing "Status = 201"
              (is (= 201 status)))
-           (testing "Added record is in response body"
-             (is (some (partial = expected-record) body)))
+           (testing "Added records are in response body"
+             (is (cljset/subset?
+                   (set expected-records)
+                   (set body))))
            (testing "Response = db"
              (is (= @db/db body))))))))
 

@@ -3,12 +3,13 @@
 
 (def num-tests 100)
 
-(defn with-cleanup [record f]
+(defn with-cleanup [records f]
   (try
     (f)
     (finally
       (reset!
         db/db
         (filterv
-          (partial not= record)
+          (fn [record]
+            (not-any? (partial = record) records))
           @db/db)))))

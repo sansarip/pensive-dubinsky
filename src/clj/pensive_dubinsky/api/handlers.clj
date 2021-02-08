@@ -17,9 +17,9 @@
   (resp/ok
     (sort*/sort-by-ascending-birth-date @db/db)))
 
-(defn add-record [{{{data-line :data-line} :body} :parameters}]
+(defn add-records [{{data-lines :body} :parameters}]
   (resp/created
     ;; FIXME: Add correct location of resource
     "/"
-    (db/add-record (parse/line->map data-line))))
+    (db/add-records (map parse/line->map data-lines))))
 

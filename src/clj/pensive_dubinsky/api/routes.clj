@@ -6,8 +6,8 @@
 (def routes
   ["/records"
    [""
-    {:post {:handler    handlers/add-record
-            :parameters {:body {:data-line ::spec/data-line}}
+    {:post {:handler    handlers/add-records
+            :parameters {:body [::spec/data-line]}
             :responses  {201 {:body ::spec/records}}}}]
    ["/email"
     {:get {:handler   handlers/sort-by-email

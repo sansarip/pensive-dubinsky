@@ -2,5 +2,5 @@
 
 (defonce db (atom []))
 
-(defn add-record [record]
-  (swap! db conj record))
+(defn add-records [records]
+  (swap! db into records))
