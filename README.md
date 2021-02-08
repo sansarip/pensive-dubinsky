@@ -1,5 +1,11 @@
 [![Build Status](https://travis-ci.com/sansarip/pensive-dubinsky.svg?branch=main)](https://travis-ci.com/sansarip/pensive-dubinsky)
 
+# Prerequisites
+
+* [Java](https://openjdk.java.net/install/)
+* [Clojure](https://clojure.org/guides/getting_started)
+* [Babashka](https://github.com/babashka/babashka)
+
 # Pensive Dubinsky
 
 Dummy project
