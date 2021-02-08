@@ -9,4 +9,4 @@ before_install:
   - 'curl -O https://download.clojure.org/install/linux-install-1.10.2.774.sh'
   - 'chmod +x linux-install-1.10.2.774.sh'
   - 'sudo ./linux-install-1.10.2.774.sh'
-script: 'clj -M:test:runner'
+script: 'clojure -M:test:runner'
