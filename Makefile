@@ -21,3 +21,6 @@ generate-and-run: generate-sample-files run-with-sample-files
 
 nrepl:
 	clj -M:server+nrepl:test -r
+
+tests:
+	clj -M:test:runner
