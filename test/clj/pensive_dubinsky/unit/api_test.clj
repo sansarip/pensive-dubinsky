@@ -2,8 +2,7 @@
   (:require [clojure.test :refer :all]
             [io.pedestal.test :refer :all]
             [pensive-dubinsky.api.spec :as spec]
-            [pensive-dubinsky.gen]
-            [pensive-dubinsky.sort :as sort*]
+            [pensive-dubinsky.gen :as gen*]
             [pensive-dubinsky.test-util :as tu]
             [pensive-dubinsky.api.server :as server]
             [pensive-dubinsky.parse :as parse]
@@ -14,8 +13,9 @@
             [clojure.spec.alpha :as s]
             [clojure.test.check.generators :as gen]
             [cheshire.core :as json]
-            [pensive-dubinsky.api.db :as db]))
+            [pensive-dubinsky.api.db :as db]
             [clojure.set :as cljset]
+            [pensive-dubinsky.samples :as samples]))
 
 (def service
   (:io.pedestal.http/service-fn
@@ -52,10 +52,10 @@
 
   ;; Given
   (prop/for-all [records (gen/fmap vec (s/gen ::spec/records))]
-
-    ;; When
     (with-redefs
       [db/db (atom records)]
+
+      ;; When
       (let [{json-body :body
              status    :status} (response-for
                                   service
@@ -73,6 +73,31 @@
                    records)
                  body)))))))
 
+(defspec test-get-sorted-birth-dates tu/num-tests
+
+  ;; Given
+  (prop/for-all [records (gen/fmap
+                           vec
+                           (gen*/records-with-dates
+                             samples/sorted-dates))]
+    (with-redefs
+      [db/db (atom records)]
+
+      ;; When
+      (let [{json-body :body
+             status    :status} (response-for
+                                  service
+                                  :get "/records/birthdate")
+            body (json/parse-string json-body true)]
+
+        ;; Then
+        (testing "Status = 200"
+          (is (= 200 status)))
+        (testing "Set of records = set of records in response body"
+          (is (= (set records) (set body))))
+        (testing "Sorted by ascending dates"
+          (is (= samples/sorted-dates
+                 (mapv :date-of-birth body))))))))
 
 
 
