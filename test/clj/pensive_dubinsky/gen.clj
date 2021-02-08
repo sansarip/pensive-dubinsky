@@ -41,11 +41,14 @@
   (s/with-gen
     ::spec/data-line
     #(gen/fmap
-       (fn [[delim values]]
-         (string/join (interpose delim values)))
+       (fn [[delim record]]
+         (->> parse/headers
+              (map record)
+              (interpose delim)
+              string/join))
        (gen/tuple
          (sg/string-generator parse/value-delimiter-regex)
-         (gen/vector gen/string-ascii)))))
+         (s/gen ::spec/record)))))
 
 (def gen-record-line
   (gen/fmap
