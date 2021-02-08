@@ -50,7 +50,19 @@
          (sg/string-generator parse/value-delimiter-regex)
          (s/gen ::spec/record)))))
 
-(def gen-record-line
+(defn records-with-dates [dates]
+  (gen/fmap
+    (fn [[shuffled-dates records]]
+      (map
+        (fn [[date record]]
+          (assoc record :date-of-birth date))
+        (zipmap shuffled-dates records)))
+    (gen/tuple
+      (gen/shuffle dates)
+      (gen/vector (s/gen ::spec/record)
+                  (count dates)))))
+
+(def record-line
   (gen/fmap
     (fn [[delimiter record]]
       (string/join delimiter (map record parse/headers)))
@@ -65,7 +77,7 @@
 (defn generate-sample-files! [lines-per-sample]
   (doseq [fp sample-file-paths]
     (->> lines-per-sample
-         (gen/sample gen-record-line)
+         (gen/sample record-line)
          (string/join (System/lineSeparator))
          (spit fp))))
 
