@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/sansarip/pensive-dubinsky.svg?branch=main)](https://travis-ci.com/sansarip/pensive-dubinsky)
+
 # Pensive Dubinsky
 
 Dummy project
