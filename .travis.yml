@@ -1,4 +1,4 @@
-language: clojure
+language: java
 sudo: required
 jdk:
   - openjdk8
@@ -6,7 +6,7 @@ branches:
   only:
     - main
 before_install:
-  - 'curl -O https://download.clojure.org/install/linux-install-1.10.1.466.sh'
-  - 'chmod +x linux-install-1.10.1.466.sh'
-  - 'sudo ./linux-install-1.10.1.466.sh'
+  - 'curl -O https://download.clojure.org/install/linux-install-1.10.2.774.sh'
+  - 'chmod +x linux-install-1.10.2.774.sh'
+  - 'sudo ./linux-install-1.10.2.774.sh'
 script: 'clj -M:test:runner'
