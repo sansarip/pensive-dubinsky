@@ -20,4 +20,20 @@ Sorted files will be in `out/`
 
 ## API
 
+Instructions for running the API
+
+### Dev
+
+```sh
+make run-dev-nrepl
+```
+
+### Prod
+
 TBD
+
+## Tests
+
+```sh
+make run-tests
+```
