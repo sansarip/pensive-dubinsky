@@ -99,7 +99,27 @@
           (is (= samples/sorted-dates
                  (mapv :date-of-birth body))))))))
 
+(defspec test-get-sorted-full-name tu/num-tests
 
+  ;; Given
+  (prop/for-all [records (gen/fmap vec (s/gen ::spec/records))]
+    (with-redefs
+      [db/db (atom records)]
 
+      ;; When
+      (let [{json-body :body
+             status    :status} (response-for
+                                  service
+                                  :get "/records/name")
+            body (json/parse-string json-body true)]
 
-
+        ;; Then
+        (testing "Status = 200"
+          (is (= 200 status)))
+        (testing "Set of records = set of records in response body"
+          (is (= (set records) (set body))))
+        (testing "Sorted by ascending full name"
+          (is (= (sort-by
+                   (juxt :first-name :last-name)
+                   records)
+                 body)))))))
