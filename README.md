@@ -10,17 +10,34 @@ A dummy project
 * [Clojure](https://clojure.org/guides/getting_started)
 * [Babashka](https://github.com/babashka/babashka)
 
+_OR_
+
+[Docker](https://www.docker.com/get-started)
+
 ## CLI
+
+Sorted files will be in `out/`
 
 ```sh
 scripts/cli.sh <file-1> <file-2> <file-3>
 ```
 
-Sorted files will be in `out/`
+_OR_
+
+```sh
+docker run \
+		-v <input-vol>:/usr/app/in \
+		-v <output-vol>:/usr/app/out \
+		sansarip/pensive-dubinsky \
+		/usr/app/scripts/cli.sh \
+		in/<file-3> \
+		in/<file-2> \
+		in/<file-1>
+```
 
 ## API
 
-Instructions for running the API
+API listens on port 3000 and nREPL is available on port 41985
 
 ### Dev
 
@@ -30,7 +47,16 @@ make run-dev-nrepl
 
 ### Prod
 
-TBD
+```sh
+make run-prod-nrepl
+```
+
+_OR_
+
+```sh
+make docker-build
+make docker-run-prod-nrepl
+```
 
 ## Tests
 
