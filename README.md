@@ -39,6 +39,8 @@ docker run \
 
 API listens on port 3000 and nREPL is available on port 41985
 
+_You may need to wait a bit for the webserver to spin up_
+
 ### Dev
 
 ```sh
@@ -58,9 +60,10 @@ make docker-build
 make docker-run-prod-nrepl
 ```
 
-### Swagger Docs
+### Swagger UI
 
-Once the API is running, you can view the docs at http://localhost:3000/
+Once the webserver is running, 
+you can view documentation and send API requests via the Swagger UI hosted at http://localhost:3000/
 
 ## Tests
 
