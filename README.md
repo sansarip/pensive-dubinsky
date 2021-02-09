@@ -58,6 +58,10 @@ make docker-build
 make docker-run-prod-nrepl
 ```
 
+### Swagger Docs
+
+Once the API is running, you can view the docs at http://localhost:3000/
+
 ## Tests
 
 ```sh
