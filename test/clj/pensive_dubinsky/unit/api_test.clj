@@ -24,29 +24,29 @@
 (defspec test-post-records tu/num-tests
 
   ;; Given
-  (prop/for-all [data-lines (gen/vector (s/gen ::spec/data-line))]
-    (let [expected-records (map parse/line->map data-lines)]
-      (tu/with-cleanup
-        expected-records
+  (prop/for-all [data-lines (gen/vector (s/gen ::spec/data-line))
+                 existing-records (gen/fmap vec (s/gen ::spec/records))]
+    (with-redefs [db/db (atom existing-records)]
+      (let [expected-records (map parse/line->map data-lines)]
 
         ;; When
-        #(let [{json-body :body
-                status    :status} (response-for
-                                     service
-                                     :post "/records"
-                                     :headers {"Content-Type" "application/json"}
-                                     :body (json/generate-string data-lines))
-               body (json/parse-string json-body true)]
+        (let [{json-body :body
+               status    :status} (response-for
+                                    service
+                                    :post "/records"
+                                    :headers {"Content-Type" "application/json"}
+                                    :body (json/generate-string data-lines))
+              body (json/parse-string json-body true)]
 
-           ;; Then
-           (testing "Status = 201"
-             (is (= 201 status)))
-           (testing "Added records are in response body"
-             (is (cljset/subset?
-                   (set expected-records)
-                   (set body))))
-           (testing "Response = db"
-             (is (= @db/db body))))))))
+          ;; Then
+          (testing "Status = 201"
+            (is (= 201 status)))
+          (testing "Added records are returned"
+            (is (= expected-records body)))
+          (testing "Added are in db"
+            (is (cljset/subset?
+                  (set expected-records)
+                  (set @db/db)))))))))
 
 (defspec test-get-sorted-emails tu/num-tests
 
