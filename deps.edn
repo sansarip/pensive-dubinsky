@@ -6,7 +6,8 @@
          metosin/ring-http-response   {:mvn/version "0.9.1"}
          metosin/reitit-pedestal      {:mvn/version "0.5.12"}
          metosin/reitit               {:mvn/version "0.5.12"}
-         ring/ring-devel              {:mvn/version "1.9.0"}}
+         ring/ring-devel              {:mvn/version "1.9.0"}
+         nrepl/nrepl                  {:mvn/version "0.8.3"}}
  :aliases
         {:server           {:main-opts ["-m" pensive-dubinsky.api.server]}
          :intellij         {:extra-paths ["dev"]}
@@ -14,8 +15,8 @@
          :prod             {:jvm-opts ["-Denv=prod"]}
          :server+nrepl     {:main-opts  ["-e" "(use,'pensive-dubinsky.api.server),(start!)"
                                          "-m" nrepl.cmdline
-                                         "-p" "3080"]
-                            :extra-deps {nrepl/nrepl {:mvn/version "0.8.3"}}}
+                                         "--bind" "0.0.0.0"
+                                         "-p" "41985"]}
          :test             {:extra-paths ["test/clj"]
                             :extra-deps  {org.clojure/test.check {:mvn/version "1.1.0"}
                                           com.velisco/strgen     {:mvn/version "0.1.8"}}}
