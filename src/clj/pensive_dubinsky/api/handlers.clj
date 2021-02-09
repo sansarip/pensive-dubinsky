@@ -17,9 +17,11 @@
   (resp/ok
     (sort*/sort-by-ascending-birth-date @db/db)))
 
-(defn add-records [{{data-lines :body} :parameters}]
+(defn add-records! [{{data-lines :body} :parameters}]
   (resp/created
-    ;; FIXME: Add correct location of resource
+    ;; FIXME: Add correct location of resource(s)
     "/"
-    (db/add-records (map parse/line->map data-lines))))
+    (let [records (map parse/line->map data-lines)]
+      (db/add-records records)
+      records)))
 
