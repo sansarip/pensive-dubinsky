@@ -13,7 +13,11 @@
               ::server/routes          []
               ;; FIXME: Restrict origins
               ::server/allowed-origins {:creds true :allowed-origins (constantly true)}
-              ::server/secure-headers  {:content-security-policy-settings {:object-src "'none'"}}}
+              ;; Allow serving the swagger-ui styles & scripts from self
+              ::server/secure-headers  {:content-security-policy-settings
+                                        {:default-src "'self'"
+                                         :style-src   "'self' 'unsafe-inline'"
+                                         :script-src  "'self' 'unsafe-inline'"}}}
              server/default-interceptors
              (pedestal/replace-last-interceptor
                ({:dev reloadable-router} env/env router))
