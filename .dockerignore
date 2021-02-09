@@ -1,0 +1,11 @@
+/dev
+/.cpcache
+/.idea
+/out
+/samples
+/text
+/.git
+.gitignore
+LICENSE
+*.iml
+.travis.yml
