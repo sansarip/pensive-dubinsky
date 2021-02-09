@@ -2,7 +2,7 @@
 
 # Pensive Dubinsky
 
-A dummy project
+A dummy project that (attempts) to sort records
 
 ## Prerequisites
 
