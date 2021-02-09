@@ -26,13 +26,13 @@ _OR_
 
 ```sh
 docker run \
-		-v <input-vol>:/usr/app/in \
-		-v <output-vol>:/usr/app/out \
-		sansarip/pensive-dubinsky \
-		/usr/app/scripts/cli.sh \
-		in/<file-3> \
-		in/<file-2> \
-		in/<file-1>
+	-v <input-vol>:/usr/app/in \
+	-v <output-vol>:/usr/app/out \
+	sansarip/pensive-dubinsky \
+	/usr/app/scripts/cli.sh \
+	in/<file-1> \
+	in/<file-2> \
+	in/<file-3>
 ```
 
 ## API
