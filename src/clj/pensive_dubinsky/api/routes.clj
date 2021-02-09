@@ -13,7 +13,7 @@
    ["/records"
     [""
      {:post {:summary    "Add records"
-             :handler    handlers/add-records
+             :handler    handlers/add-records!
              :parameters {:body [::spec/data-line]}
              :responses  {201 {:body ::spec/records}}}}]
     ["/email"
