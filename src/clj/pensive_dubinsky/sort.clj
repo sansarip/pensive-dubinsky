@@ -36,6 +36,7 @@
     records))
 
 (defn sort-by-ascending-full-name
+  "Sort by full name, first name then last name"
   [records]
   (sort-by
     (juxt :first-name :last-name)
