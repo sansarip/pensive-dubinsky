@@ -10,6 +10,8 @@
  :aliases
         {:server           {:main-opts ["-m" pensive-dubinsky.api.server]}
          :intellij         {:extra-paths ["dev"]}
+         :dev              {:jvm-opts ["-Denv=dev"]}
+         :prod             {:jvm-opts ["-Denv=prod"]}
          :server+nrepl     {:main-opts  ["-e" "(use,'pensive-dubinsky.api.server),(start!)"
                                          "-m" nrepl.cmdline
                                          "-p" "3080"]
