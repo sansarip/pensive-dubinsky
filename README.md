@@ -29,7 +29,7 @@ docker run \
 	-v <input-vol>:/usr/app/in \
 	-v <output-vol>:/usr/app/out \
 	sansarip/pensive-dubinsky \
-	/usr/app/scripts/cli.sh \
+	./scripts/cli.sh \
 	in/<file-1> \
 	in/<file-2> \
 	in/<file-3>

@@ -18,7 +18,7 @@ docker-run-with-sample-files:
 		-v $$(pwd)/out:/usr/app/out \
 		--rm \
 		sansarip/pensive-dubinsky \
-		/usr/app/scripts/cli.sh \
+		./scripts/cli.sh \
 		samples/sample1.txt \
 		samples/sample2.txt \
 		samples/sample3.txt
