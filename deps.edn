@@ -1,4 +1,4 @@
-{:paths ["src/clj"]
+{:paths ["src/clj" "src/cljc"]
  :deps  {org.clojure/clojure          {:mvn/version "1.10.2"}
          org.slf4j/slf4j-nop          {:mvn/version "1.7.12"}
          io.pedestal/pedestal.service {:mvn/version "0.5.5"}
