@@ -25,6 +25,7 @@ scripts/cli.sh <file-1> <file-2> <file-3>
 _OR_
 
 ```sh
+make docker-build
 docker run \
 	-v <input-vol>:/usr/app/in \
 	-v <output-vol>:/usr/app/out \
