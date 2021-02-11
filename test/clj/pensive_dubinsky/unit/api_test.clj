@@ -15,7 +15,8 @@
             [cheshire.core :as json]
             [pensive-dubinsky.api.db :as db]
             [clojure.set :as cljset]
-            [pensive-dubinsky.samples :as samples]))
+            [pensive-dubinsky.samples :as samples]
+            [clojure.string :as string]))
 
 (def service
   (:io.pedestal.http/service-fn
@@ -69,7 +70,7 @@
           (is (= (set records) (set body))))
         (testing "Sorted by ascending email"
           (is (= (sort-by
-                   :email
+                   (comp string/lower-case :email)
                    records)
                  body)))))))
 
@@ -120,6 +121,7 @@
           (is (= (set records) (set body))))
         (testing "Sorted by ascending full name"
           (is (= (sort-by
-                   (juxt :first-name :last-name)
+                   (juxt (comp string/lower-case :first-name)
+                         (comp string/lower-case :last-name))
                    records)
                  body)))))))

@@ -15,15 +15,19 @@
      records))
   ([{email-a :email last-name-a :last-name}
     {email-b :email last-name-b :last-name}]
-   (let [c (reverse-compare email-a email-b)]
+   (let [c (reverse-compare
+             (string/lower-case email-a)
+             (string/lower-case email-b))]
      (if (not= c 0)
        c
-       (compare last-name-a last-name-b)))))
+       (compare
+         (string/lower-case last-name-a)
+         (string/lower-case last-name-b))))))
 
 (defn sort-by-ascending-email
   [records]
   (sort-by
-    :email
+    (with-lower-case :email)
     records))
 
 (defn sort-by-ascending-birth-date
@@ -35,7 +39,7 @@
 (defn sort-by-descending-last-name
   [records]
   (sort-by
-    :last-name
+    (with-lower-case :last-name)
     reverse-compare
     records))
 
