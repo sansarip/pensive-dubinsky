@@ -10,9 +10,11 @@
     [clojure.test.check.properties :as prop]
     [clojure.test]
     [clojure.spec.alpha :as s]
-    [clojure.test.check.generators :as gen]))
+    [clojure.test.check.generators :as gen]
+    [clojure.string :as string]))
 
 (defspec test-set-of-sorted-records-equal-to-set-of-input-records tu/num-tests
+
   ;; Given
   (prop/for-all [record-set (gen/fmap
                               set
@@ -69,7 +71,7 @@
                            records)]
 
       ;; Then
-      (is (= (sort-by :email #(compare %2 %1) records)
+      (is (= (sort-by (comp string/lower-case :email) #(compare %2 %1) records)
              sorted-records)))))
 
 
@@ -86,7 +88,7 @@
                            records)]
 
       ;; Then
-      (is (= (sort-by :last-name records)
+      (is (= (sort-by (comp string/lower-case :last-name) records)
              sorted-records)))))
 
 (defspec test-sort-descending-birth-date tu/num-tests

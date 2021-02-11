@@ -1,5 +1,9 @@
 (ns pensive-dubinsky.sort
-  (:require [pensive-dubinsky.util :as util]))
+  (:require [pensive-dubinsky.util :as util]
+            [clojure.string :as string]))
+
+(defn with-lower-case [kw]
+  (comp string/lower-case kw))
 
 (defn reverse-compare [a b]
   (compare b a))
@@ -39,5 +43,18 @@
   "Sort by full name, first name then last name"
   [records]
   (sort-by
-    (juxt :first-name :last-name)
+    (juxt
+      (with-lower-case :first-name)
+      (with-lower-case :last-name))
+    records))
+
+(defn sort-record
+  [records
+   column
+   direction]
+  (sort-by
+    (with-lower-case (keyword column))
+    ({"ascending"  compare
+      "descending" reverse-compare}
+     direction)
     records))

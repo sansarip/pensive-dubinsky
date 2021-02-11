@@ -2,7 +2,8 @@
   (:require
     [pensive-dubinsky.api.handlers :as handlers]
     [pensive-dubinsky.api.spec :as spec]
-    [reitit.swagger :as swagger]))
+    [reitit.swagger :as swagger]
+    [pensive-dubinsky.api.db :as db]))
 
 (def routes
   [["/swagger.json"
@@ -16,6 +17,11 @@
              :handler    handlers/add-records!
              :parameters {:body [::spec/data-line]}
              :responses  {201 {:body ::spec/records}}}}]
+    ["/sort" {:summary    "Sort records by given column and direction"
+              :handler    handlers/sort-record
+              :parameters {:query {:column    ::spec/sort-column
+                                   :direction ::spec/sort-direction}}
+              :responses {200 {:body ::spec/records}}}]
     ["/email"
      {:get {:summary   "Sort records by ascending email"
             :handler   handlers/sort-by-email

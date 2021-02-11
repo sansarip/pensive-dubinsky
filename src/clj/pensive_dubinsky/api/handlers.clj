@@ -17,6 +17,13 @@
   (resp/ok
     (sort*/sort-by-ascending-birth-date @db/db)))
 
+(defn sort-record [{{:keys [column direction]} :query-params}]
+  (resp/ok
+    (sort*/sort-record
+      @db/db
+      column
+      direction)))
+
 (defn add-records! [{{data-lines :body} :parameters}]
   (resp/created
     ;; FIXME: Add correct location of resource(s)
@@ -24,4 +31,5 @@
     (let [records (map parse/line->map data-lines)]
       (db/add-records records)
       records)))
+
 
