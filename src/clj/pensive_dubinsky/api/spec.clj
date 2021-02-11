@@ -44,6 +44,9 @@
 
 (s/def ::data-line (s/and string? valid-data-line?))
 
+(s/def ::sort-column string?)
+(s/def ::sort-direction #{"ascending" "descending"})
+
 (s/def ::record (s/keys
                   :req-un [::last-name
                            ::first-name
